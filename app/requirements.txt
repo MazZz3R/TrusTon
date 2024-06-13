@@ -1,0 +1,16 @@
+bcrypt
+email-validator
+fastapi[all]
+python-jose
+passlib
+pydantic
+pydantic-extra-types
+pydantic-settings
+pydantic_core
+python-multipart
+SQLAlchemy
+uvicorn[standart]
+alembic
+asyncpg
+filetype
+phonenumbers
