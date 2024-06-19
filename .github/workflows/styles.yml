@@ -10,7 +10,7 @@ on:
       - "*"
 
 jobs:
-  build:
+  linter_check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
