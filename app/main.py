@@ -2,8 +2,7 @@
 Main app configuration and entry point
 """
 
-from aiogram.types import Update
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from pydantic_extra_types.phone_numbers import PhoneNumber
 from starlette.middleware.cors import CORSMiddleware
