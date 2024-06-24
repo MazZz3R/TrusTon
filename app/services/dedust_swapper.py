@@ -1,15 +1,17 @@
-from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
-from pytoniq import WalletV4R2
 import time
+from pytoniq import WalletV4R2
+from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
 
 GAS_VALUE = int(0.25*1e9)
 DEDUST_NATIVE_VAULT = "EQDa4VOnTYlLvDJ0gZjNYm5PXfSmmtL6Vs6A_CZEtXCNICq_"
 
-async def swap_to_jetton(ton_wallet : WalletV4R2, token_address : str, amount:float, actual_for = 60*5):
+async def swap_to_jetton(ton_wallet : WalletV4R2,
+                         token_address : str,
+                         amount:float,
+                         actual_for = 60*5):
     ton = Asset.native()
     token = Asset.jetton(token_address)
-
-    pool = await Factory.get_pool(PoolType.VOLATILE, 
+    pool = await Factory.get_pool(PoolType.VOLATILE,
                                   [ton,token],
                                   ton_wallet.provider)
 
@@ -29,7 +31,6 @@ async def swap_to_jetton(ton_wallet : WalletV4R2, token_address : str, amount:fl
 
     await ton_wallet.provider.close_all()
 
-
 # Not sure it works
 async def swap_to_ton(ton_wallet : WalletV4R2, token_address : str, amount:float):
     ton = Asset.native()
@@ -42,8 +43,8 @@ async def swap_to_ton(ton_wallet : WalletV4R2, token_address : str, amount:float
     token_vault = await Factory.get_jetton_vault(token_address, ton_wallet.provider)
     token_root = JettonRoot.create_from_address(token_address)
     token_wallet = await token_root.get_wallet(ton_wallet.address, ton_wallet.provider)
-    
-    swap_amount = int(amount * 1e9) 
+
+    swap_amount = int(amount * 1e9)
 
     swap = token_wallet.create_transfer_payload(
         destination=token_vault.address,
@@ -58,9 +59,3 @@ async def swap_to_ton(ton_wallet : WalletV4R2, token_address : str, amount:float
                               body=swap)
 
     await ton_wallet.provider.close_all()
-
-
-
- 
-
-
