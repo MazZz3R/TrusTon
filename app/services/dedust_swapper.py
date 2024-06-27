@@ -4,15 +4,34 @@ from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot
 
 GAS_VALUE = int(0.25*1e9)
 DEDUST_NATIVE_VAULT = "EQDa4VOnTYlLvDJ0gZjNYm5PXfSmmtL6Vs6A_CZEtXCNICq_"
+TON = Asset.native()
+
 
 async def swap_to_jetton(ton_wallet : WalletV4R2,
-                         token_address : str,
+                         jetton_address : str,
                          amount:float,
                          actual_for = 60*5):
-    ton = Asset.native()
-    token = Asset.jetton(token_address)
+    """Method swaps toncoins to jetton on dedust.
+    
+    Parameters
+    ----------
+    ton_wallet : WalletV4R2, required
+        Ton wallet which will swap ton to jetton
+
+    jetton_address : str, required
+        Contract address of wanted jetton
+
+    amount : float, required
+        Amount of ton to be swapped
+
+    actual_for : int, optional
+        Time in seconds for which request is actual
+        (default is 5 minutes)
+    """
+
+    token = Asset.jetton(jetton_address)
     pool = await Factory.get_pool(PoolType.VOLATILE,
-                                  [ton,token],
+                                  [TON,token],
                                   ton_wallet.provider)
 
     swap_params = SwapParams(deadline=int(time.time() + actual_for),
@@ -32,16 +51,28 @@ async def swap_to_jetton(ton_wallet : WalletV4R2,
     await ton_wallet.provider.close_all()
 
 # Not sure it works
-async def swap_to_ton(ton_wallet : WalletV4R2, token_address : str, amount:float):
-    ton = Asset.native()
-    token = Asset.jetton(token_address)
+async def swap_to_ton(ton_wallet : WalletV4R2, jetton_address : str, amount:float):
+    """Method swaps jetoon to ton on dedust.
+    
+    Parameters
+    ----------
+    ton_wallet : WalletV4R2, required
+        Ton wallet which will swap ton to jetton
+
+    jetton_address : str, required
+        Contract address of wanted jetton
+
+    amount : float, required
+        Amount of jetton to be swapped
+    """
+    token = Asset.jetton(jetton_address)
 
     pool = await Factory.get_pool(PoolType.VOLATILE, 
-                                  [ton,token],
+                                  [TON,token],
                                   ton_wallet.provider)
 
-    token_vault = await Factory.get_jetton_vault(token_address, ton_wallet.provider)
-    token_root = JettonRoot.create_from_address(token_address)
+    token_vault = await Factory.get_jetton_vault(jetton_address, ton_wallet.provider)
+    token_root = JettonRoot.create_from_address(jetton_address)
     token_wallet = await token_root.get_wallet(ton_wallet.address, ton_wallet.provider)
 
     swap_amount = int(amount * 1e9)
