@@ -1,0 +1,272 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+    padding-top: 2rem;
+    background-color: white;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+}
+
+.sidebar-icon {
+    width: 2.75rem;
+    aspect-ratio: 1;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.wallet-section {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: space-between;
+    align-self: center;
+    margin-left: 0;
+}
+
+.wallet-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.wallet-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    border-color: black;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.wallet-header {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+.wallet-icon {
+    width: 2rem;
+    aspect-ratio: 1;
+}
+
+.wallet-info {
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+}
+
+.wallet-type {
+    margin-bottom: 0.5rem;
+}
+
+.wallet-address {
+    opacity: 0.5;
+}
+
+.wallet-footer {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.manage-button {
+    display: flex;
+    flex: 1;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.manage-icon {
+    width: 1.125rem;
+    aspect-ratio: 1;
+}
+
+.crypto-section {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.crypto-header {
+    display: flex;
+    gap: 0;
+    margin: 0 1rem;
+    white-space: nowrap;
+    color: #d6ccc2;
+}
+
+.crypto-placeholder {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    width: fit-content;
+}
+
+.crypto-add-icon {
+    width: 2.25rem;
+    aspect-ratio: 1.06;
+    align-self: flex-start;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.crypto-table-header {
+    display: flex;
+    gap: 0;
+    padding: 0 1.25rem;
+    color: black;
+}
+
+.crypto-table-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    padding-top: 1.25rem;
+    padding-right: 3.5rem;
+    padding-left: 1rem;
+    white-space: nowrap;
+    background-color: white;
+}
+
+.crypto-table-column-title {
+    margin-bottom: 1rem;
+}
+
+.crypto-table-column-underline {
+    height: 1px;
+    background-color: black;
+}
+
+.crypto-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+.crypto-row {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    width: 100%;
+    background-color: white;
+    border-bottom: 1px solid black;
+    text-align: left;
+    cursor: pointer;
+}
+
+.crypto-info {
+    display: flex;
+    gap: 0.625rem;
+}
+
+.crypto-icon {
+    width: 2rem;
+    aspect-ratio: 1;
+    border: 1px solid black;
+}
+
+.crypto-name-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto 0;
+}
+
+.crypto-name {
+    color: black;
+}
+
+.crypto-full-name {
+    margin-top: 0.5rem;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.crypto-values {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto 0;
+}
+
+.crypto-value {
+    align-self: stretch;
+    margin: auto 0;
+    color: black;
+}
+
+.crypto-eur-value {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+}
+
+.crypto-eur {
+    color: black;
+}
+
+.crypto-eur-converted {
+    margin-top: 0.375rem;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .wallet-section,
+    .crypto-header,
+    .crypto-table-header,
+    .crypto-row {
+        flex-wrap: wrap;
+    }
+
+    .main-content,
+    .crypto-placeholder,
+    .crypto-values {
+        max-width: 100%;
+    }
+
+    .wallet-content,
+    .crypto-table-column {
+        padding-right: 1.25rem;
+    }
+}
