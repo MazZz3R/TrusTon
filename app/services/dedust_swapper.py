@@ -1,11 +1,19 @@
+from typing import List
+
 from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
-from pytoniq import WalletV4R2
+from pytoniq import WalletV4R2, LiteBalancer
 import time
 
 GAS_VALUE = 0.25*1e9
 DEDUST_NATIVE_VAULT = "EQDa4VOnTYlLvDJ0gZjNYm5PXfSmmtL6Vs6A_CZEtXCNICq_"
 
-async def swap_to_jetton(ton_wallet : WalletV4R2, token_address : str, ton_amount:float, actual_for = 60*5):
+async def swap_to_jetton(ton_wallet : List[str], token_address : str, ton_amount:float, actual_for = 60*5):
+    print(ton_wallet, token_address, ton_amount, actual_for)
+    provider = LiteBalancer.from_mainnet_config(1)
+    await provider.start_up()
+
+    ton_wallet = await WalletV4R2.from_mnemonic(provider=provider, mnemonics=ton_wallet)
+
     ton = Asset.native()
     token = Asset.jetton(token_address)
 

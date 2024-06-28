@@ -1,3 +1,4 @@
+from typing import List
 from datetime import datetime
 
 from pydantic import BaseModel
@@ -7,7 +8,7 @@ class SwapBase(BaseModel):
     """
     Common Swap properties.
     """
-    ton_wallet: str
+    ton_wallet: List[str]
     token_address: str
     token_amount: float
 
