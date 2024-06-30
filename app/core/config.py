@@ -74,7 +74,8 @@ class Settings(BaseSettings):
 
         path = f"{values.get('POSTGRES_USER')}:" \
                f"{quote(values.get('POSTGRES_PASSWORD'))}@" \
-               f"{values.get('POSTGRES_SERVER')}/{values.get('POSTGRES_DB') or ''}"
+               f"{values.get('POSTGRES_SERVER')}/{values.get('POSTGRES_DB') or ''}" \
+               f"?ssl=require"
         return "postgresql+asyncpg://" + path
 
     SMTP_PORT: Optional[int] = 465
