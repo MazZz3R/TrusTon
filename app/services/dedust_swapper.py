@@ -31,9 +31,9 @@ class DedustSwapper(Swapper):
             (default is 5 minutes)
         """
 
-        token = Asset.jetton(jetton_address)
+        jetton = Asset.jetton(jetton_address)
         pool = await Factory.get_pool(PoolType.VOLATILE,
-                                    [TON,token],
+                                    [TON,jetton],
                                     wallet.provider)
 
         swap_params = SwapParams(deadline=int(time.time() + actual_for),
@@ -67,27 +67,27 @@ class DedustSwapper(Swapper):
         amount : float, required
             Amount of jetton to be swapped
         """
-        token = Asset.jetton(jetton_address)
+        jetton = Asset.jetton(jetton_address)
 
         pool = await Factory.get_pool(PoolType.VOLATILE, 
-                                    [TON,token],
+                                    [TON,jetton],
                                     wallet.provider)
 
-        token_vault = await Factory.get_jetton_vault(jetton_address, wallet.provider)
-        token_root = JettonRoot.create_from_address(jetton_address)
-        token_wallet = await token_root.get_wallet(wallet.address, wallet.provider)
+        jetton_vault = await Factory.get_jetton_vault(jetton_address, wallet.provider)
+        jetton_root = JettonRoot.create_from_address(jetton_address)
+        jetton_wallet = await jetton_root.get_wallet(wallet.address, wallet.provider)
 
         swap_amount = int(amount * 1e9)
 
-        swap = token_wallet.create_transfer_payload(
-            destination=token_vault.address,
+        swap = jetton_wallet.create_transfer_payload(
+            destination=jetton_vault.address,
             amount=swap_amount,
             response_address=wallet.address,
             forward_amount=GAS_VALUE,
             forward_payload=VaultJetton.create_swap_payload(pool_address=pool.address)
         )
 
-        await wallet.transfer(destination=token_wallet.address,
+        await wallet.transfer(destination=jetton_wallet.address,
                                 amount=GAS_VALUE,
                                 body=swap)
 

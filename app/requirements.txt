@@ -1,5 +1,6 @@
 bcrypt
 dedust
+stonfi
 email-validator
 fastapi[all]
 python-jose
