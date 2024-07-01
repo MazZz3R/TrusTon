@@ -1,0 +1,10 @@
+from swapper import Swapper
+
+class StonfiSwapper(Swapper):
+    
+    async def swap_to_jetton(wallet, jetton_address: str, amount: float):
+        return await super().swap_to_jetton(jetton_address, amount)
+    
+
+    async def swap_to_native(wallet, jetton_address: str, amount: float, actual_for=60 * 5):
+        return await super().swap_to_native(jetton_address, amount, actual_for)
