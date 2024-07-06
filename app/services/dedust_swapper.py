@@ -50,7 +50,6 @@ class DedustSwapper(Swapper):
                             amount=swap_amount,
                             body=swap)
 
-        await wallet.provider.close_all()
 
     # Not sure it works
     async def swap_to_native(wallet : WalletV4R2, jetton_address : str, amount:float):
@@ -91,4 +90,3 @@ class DedustSwapper(Swapper):
                                 amount=GAS_VALUE,
                                 body=swap)
 
-        await wallet.provider.close_all()
