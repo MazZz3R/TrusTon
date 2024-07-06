@@ -1,5 +1,6 @@
 bcrypt
 dedust
+dataclasses_json
 stonfi
 email-validator
 fastapi[all]
