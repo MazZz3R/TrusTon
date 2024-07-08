@@ -1,7 +1,7 @@
 from pytoniq import WalletV4R2
 from stonfi import RouterV1, constants
 import os
-from swapper import Swapper
+from app.services.swapper import Swapper
 
 
 

@@ -1,7 +1,7 @@
 import time
 from pytoniq import WalletV4R2
 from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
-from swapper import Swapper
+from app.services.swapper import Swapper
 
 GAS_VALUE = int(0.25*1e9)
 DEDUST_NATIVE_VAULT = "EQDa4VOnTYlLvDJ0gZjNYm5PXfSmmtL6Vs6A_CZEtXCNICq_"
