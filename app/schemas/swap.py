@@ -8,9 +8,10 @@ class SwapBase(BaseModel):
     """
     Common Swap properties.
     """
-    ton_wallet: List[str]
+    ton_wallet: str
     token_address: str
     token_amount: float
+    dex: str = "dedust"
 
 
 class SwapCreate(SwapBase):
