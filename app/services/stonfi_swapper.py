@@ -21,8 +21,8 @@ class StonfiSwapper(Swapper):
             params['payload']
         )
         return resp
-    
-    
+
+
     async def swap_to_native(wallet, jetton_address: str, amount: float):
         router = RouterV1()
         amount = int(amount * 1e9)
@@ -40,11 +40,3 @@ class StonfiSwapper(Swapper):
             params['payload']
         )
         return resp
-
-    
-
-
-    
-
-
-
