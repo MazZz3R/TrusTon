@@ -1,8 +1,7 @@
 from fastapi import APIRouter
+from pytoniq import LiteBalancer, WalletV4R2
 
 from app import schemas, services
-
-from pytoniq import LiteBalancer, WalletV4R2
 
 router = APIRouter(prefix='/swap')
 

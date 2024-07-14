@@ -67,10 +67,9 @@ async def apply_access_token(token: str,
     if not token:
         if options.get('verify_exp') is False:
             return None
-        else:
-            raise HTTPException(
-                status_code=401,
-                detail="Could not process access token")
+        raise HTTPException(
+            status_code=401,
+            detail="Could not process access token")
 
     try:
         payload = jwt.decode(token, settings.SECRET_KEY,

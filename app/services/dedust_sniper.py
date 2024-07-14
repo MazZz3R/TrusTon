@@ -1,9 +1,9 @@
-from pytoniq import LiteBalancer, WalletV4R2
 import asyncio
-from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
-import logging
-import dedust_swapper
 
+from dedust import Asset, Factory, PoolType
+from pytoniq import LiteBalancer, WalletV4R2
+
+import dedust_swapper
 
 TON = Asset.native()
 swapper = dedust_swapper.DedustSwapper()
@@ -18,7 +18,6 @@ async def snipe(wallet: WalletV4R2, jetton_addr: str, ton_amount: int):
     )
     print(f"Pool: {pool.address.to_str()}")
     print(f"Ready: {await pool.get_readiness_status()}")
-
 
 
 async def main():

@@ -1,4 +1,7 @@
-from typing import List
+"""
+Swap schemas
+"""
+
 from datetime import datetime
 
 from pydantic import BaseModel

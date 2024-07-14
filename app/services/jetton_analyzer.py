@@ -1,10 +1,11 @@
-from pytoniq import LiteBalancer
 import asyncio
-from dedust import Asset, Factory, PoolType, SwapParams, VaultNative, JettonRoot, VaultJetton
-import logging
+
+from dedust import Asset, Factory, PoolType
 from dexscreener import DexscreenerClient
+from pytoniq import LiteBalancer
 
 TON = Asset.native()
+
 
 async def analyze(jetton_addr: str):
     client = LiteBalancer.from_mainnet_config(trust_level=1)
@@ -32,4 +33,5 @@ async def analyze(jetton_addr: str):
     print(answer)
 
 
-asyncio.get_event_loop().run_until_complete(analyze("EQABBW_uifkTMvvR0PHq3NoNHDTDoEgSMToU8oaTkO-Hif5A"))
+asyncio.get_event_loop().run_until_complete(
+    analyze("EQABBW_uifkTMvvR0PHq3NoNHDTDoEgSMToU8oaTkO-Hif5A"))
