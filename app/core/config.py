@@ -86,6 +86,8 @@ class Settings(BaseSettings):
     IMAGE_STORAGE_LOCATION: str = "./images/"
     IMAGE_SERVING_LOCATION: str = 'images'
 
+    TONCENTER_API_KEY: str
+
     class Config:
         """
         These settings parameters
