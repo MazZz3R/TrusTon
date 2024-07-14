@@ -40,11 +40,3 @@ class StonfiSwapper(Swapper):
             params['payload']
         )
         return resp
-
-
-
-
-
-
-
-
