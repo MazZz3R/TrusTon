@@ -14,10 +14,9 @@ class User(Base):
     Regular user
     """
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
 
-    tg_id: Mapped[str] = mapped_column(index=True, unique=True)
-    tg_username: Mapped[str] = mapped_column(nullable=True)
+    username: Mapped[str] = mapped_column(nullable=True)
 
     name: Mapped[str] = mapped_column(nullable=True)
     surname: Mapped[str] = mapped_column(nullable=True)

@@ -10,7 +10,7 @@ from app.models.base import Base
 
 class RefreshToken(Base):
     """
-    Stored one-time tokens
+    Stored single use tokens
     """
     __tablename__ = "refresh_tokens"
 

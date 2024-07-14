@@ -68,7 +68,7 @@ class DedustSwapper(Swapper):
         """
         jetton = Asset.jetton(jetton_address)
 
-        pool = await Factory.get_pool(PoolType.VOLATILE, 
+        pool = await Factory.get_pool(PoolType.VOLATILE,
                                     [TON,jetton],
                                     wallet.provider)
 

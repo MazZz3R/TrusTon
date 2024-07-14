@@ -2,13 +2,12 @@
 Default CRUD data operations
 """
 
-from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
+from typing import Any, Dict, Generic, Optional, Type, TypeVar, Union, Iterable
 
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models
 from app.models.base import Base
 
 ModelType = TypeVar("ModelType", bound=Base)  # pylint: disable=invalid-name
@@ -42,7 +41,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def get_multi(
             self, db: AsyncSession, skip: int = 0, limit: int = 100
-    ) -> List[ModelType]:
+    ) -> Iterable[ModelType]:
         """
         Get all objects (paginated)
         """
@@ -54,13 +53,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         Store new object in database
         """
         db_obj = self.model(**obj_in.model_dump())  # type: ignore
-
-        # custom string id
-        if self.model.id.type.python_type is str and db_obj.id is None:
-            # format class_name-number
-            model_id = f"{self.model.__name__.lower()}-" \
-                       f"{await self.get_new_id_cnt(self.model.__name__, db)}"
-            setattr(db_obj, "id", model_id)
 
         db.add(db_obj)
         await db.commit()
@@ -98,23 +90,3 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await db.delete(obj)
         await db.commit()
         return obj
-
-    @staticmethod
-    async def get_new_id_cnt(model_name: str, db: AsyncSession) -> int:
-        """
-        Get unique row number in corresponding table for id
-        """
-        counter = await db.scalar(select(models.Counter)
-                                  .filter_by(name=model_name.lower()))
-        if counter is None:
-            new_counter = models.Counter(name=model_name.lower())
-            db.add(new_counter)
-            await db.commit()
-            await db.refresh(new_counter)
-            return 0
-
-        setattr(counter, "value", counter.value + 1)
-        db.add(counter)
-        await db.commit()
-        await db.refresh(counter)
-        return counter.value
