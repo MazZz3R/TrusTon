@@ -86,6 +86,28 @@ class Settings(BaseSettings):
     IMAGE_STORAGE_LOCATION: str = "./images/"
     IMAGE_SERVING_LOCATION: str = 'images'
 
+    COOKIE_SETTINGS: Optional[dict] = None
+
+    @field_validator("COOKIE_SETTINGS", mode="before")
+    @classmethod
+    def define_cookie_params(cls, val: Optional[dict], info: FieldValidationInfo):
+        """
+        Updates default cookie settings for debug
+        """
+        values = info.data
+
+        if isinstance(val, dict):
+            return val
+
+        if values.get('DEBUG'):
+            cookie_settings = {"samesite": 'none'}
+        else:
+            cookie_settings = {"httponly": True,
+                               "samesite": 'strict',
+                               "secure": True,
+                               "domain": values.get('DOMAIN')}
+        return cookie_settings
+
     class Config:
         """
         These settings parameters

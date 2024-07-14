@@ -7,7 +7,7 @@ from typing import Optional
 from pydantic import BaseModel, HttpUrl
 
 
-class TgAuthorisationData(BaseModel):
+class TgAuthorizationData(BaseModel):
     """
     Data returned by telegram from login
     """

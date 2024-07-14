@@ -15,7 +15,7 @@ from app.services.security.ar_tokens import create_access_token, create_refresh_
 
 
 def check_tg_credentials(
-        tg_credentials: schemas.TgAuthorisationData) -> schemas.TgAuthorisationResult:
+        tg_credentials: schemas.TgAuthorizationData) -> schemas.TgAuthorisationResult:
     """
     Confirms that telegram credentials are recent and actually sent by telegram.
     """
@@ -34,7 +34,7 @@ def check_tg_credentials(
     return schemas.TgAuthorisationResult(result=is_valid, admin=is_admin)
 
 
-async def login_via_tg(db: AsyncSession, tg_data: schemas.TgAuthorisationData):
+async def login_via_tg(db: AsyncSession, tg_data: schemas.TgAuthorizationData):
     """
     Returns token pair on successful login through telegram
     """
