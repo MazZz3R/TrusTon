@@ -1,13 +1,16 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from pytoniq import LiteBalancer, WalletV4R2
 
-from app import schemas, services
+from app import models
+from app import schemas
+from app import services
 
 router = APIRouter(prefix='/swap')
 
 
 @router.post("/swap_to_jetton")
-async def swap_to_jetton(swap_info: schemas.SwapCreate):
+async def swap_to_jetton(swap_info: schemas.SwapCreate,
+                         user: models.User = Depends(services.security.get_user)):
     """
     Swap TON with some token on dedust.
     """
@@ -29,7 +32,8 @@ async def swap_to_jetton(swap_info: schemas.SwapCreate):
 
 
 @router.post("/swap_to_native")
-async def swap_to_native(swap_info: schemas.SwapCreate):
+async def swap_to_native(swap_info: schemas.SwapCreate,
+                         user: models.User = Depends(services.security.get_user)):
     """
     Swap TON with some token on dedust.
     """

@@ -83,10 +83,36 @@ class Settings(BaseSettings):
     EMAILS_FROM_EMAIL: Optional[EmailStr] = None
     SMTP_PASSWORD: Optional[str] = None
 
+    USER_BOT_TOKEN: str
+
     IMAGE_STORAGE_LOCATION: str = "./images/"
     IMAGE_SERVING_LOCATION: str = 'images'
 
+
+    COOKIE_SETTINGS: Optional[dict] = None
+
+    @field_validator("COOKIE_SETTINGS", mode="before")
+    @classmethod
+    def define_cookie_params(cls, val: Optional[dict], info: FieldValidationInfo):
+        """
+        Updates default cookie settings for debug
+        """
+        values = info.data
+
+        if isinstance(val, dict):
+            return val
+
+        if values.get('DEBUG'):
+            cookie_settings = {"samesite": 'none'}
+        else:
+            cookie_settings = {"httponly": True,
+                               "samesite": 'strict',
+                               "secure": True,
+                               "domain": values.get('DOMAIN')}
+        return cookie_settings
+
     TONCENTER_API_KEY: str
+
 
     class Config:
         """

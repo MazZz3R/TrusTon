@@ -11,7 +11,6 @@ class UserBase(BaseModel):
     """
     Common user properties
     """
-    id: str
     username: Optional[str] = None
 
     name: Optional[str] = None
@@ -24,6 +23,7 @@ class UserCreate(UserBase):
     """
     Schema for user create request
     """
+    id: str
 
 
 class UserUpdate(UserBase):
@@ -36,6 +36,7 @@ class User(UserBase):
     """
     User as in response in api
     """
+    id: str
 
     class Config:
         from_attributes = True
