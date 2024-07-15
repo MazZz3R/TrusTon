@@ -17,3 +17,5 @@ alembic
 asyncpg
 filetype
 phonenumbers
+pytoncenter
+dexscreener
