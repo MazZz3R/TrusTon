@@ -83,6 +83,8 @@ class Settings(BaseSettings):
     EMAILS_FROM_EMAIL: Optional[EmailStr] = None
     SMTP_PASSWORD: Optional[str] = None
 
+    USER_BOT_TOKEN: str
+
     IMAGE_STORAGE_LOCATION: str = "./images/"
     IMAGE_SERVING_LOCATION: str = 'images'
 

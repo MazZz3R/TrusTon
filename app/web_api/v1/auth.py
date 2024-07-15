@@ -40,10 +40,17 @@ async def logout(request: Request, response: Response,
     response.delete_cookie(key="access_token", **settings.COOKIE_SETTINGS)
     response.delete_cookie(key="refresh_token", **settings.COOKIE_SETTINGS)
 
-    token_data = await services.security.apply_access_token(access, {'verify_exp': False})
-    await services.security.apply_refresh_token(db, refresh, token_data.sub)
+    if not access:
+        return
+
+    try:
+        token_data = await services.security.apply_access_token(access, {'verify_exp': False})
+        await services.security.apply_refresh_token(db, refresh, token_data.sub)
+    except Exception as exc:
+        pass  # tokens must be cleared in any case
 
 
 @router.get("/me", response_model=schemas.User)
-async def get_logged_user_info(user: models.User = Depends(services.security.get_user)):
+async def get_logged_user_info(
+        user: models.User = Depends(services.security.get_user)):
     return user

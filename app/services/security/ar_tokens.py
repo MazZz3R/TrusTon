@@ -3,7 +3,7 @@ Access and refresh tokens handling
 """
 
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import HTTPException, Request, Response, Depends
@@ -25,7 +25,7 @@ async def create_access_token(user_id: str,
     TODO: why data is dict if we have AccessTokenPayload schema?
     """
     minutes_expire = minutes_expire or settings.ACCESS_TOKEN_EXPIRE_MINUTES
-    expire = (datetime.now() + timedelta(minutes=minutes_expire)).timestamp()
+    expire = (datetime.now(timezone.utc) + timedelta(minutes=minutes_expire)).timestamp()
 
     payload = {} if not data else data.copy()
     payload.update(exp=expire, sub=user_id)
@@ -43,7 +43,7 @@ async def create_refresh_token(db: AsyncSession, user_id: str,
     Generates long-lasting single use token and puts it into db.
     """
     minutes_expire = minutes_expire or settings.REFRESH_TOKEN_EXPIRE_MINUTES
-    expire = (datetime.now() + timedelta(minutes=minutes_expire)).timestamp()
+    expire = (datetime.now(timezone.utc) + timedelta(minutes=minutes_expire)).replace(tzinfo=None)
 
     value = secrets.token_urlsafe(settings.REFRESH_TOKEN_LENGTH_BYTES)
 
@@ -104,12 +104,12 @@ async def apply_refresh_token(db: AsyncSession, token: str, user_id: str) -> boo
         await invalidate_refresh_tokens(db, stored_token.user_id)
         return False
 
-    # incorrect or expired token
-    if stored_token is None or stored_token.expiration <= datetime.now() \
-            or stored_token.user_id != user_id:
-        return False
-
     await repo.refresh_token.update(db, db_obj=stored_token, obj_in={"disposed": True})
+
+    # incorrect or expired token
+    if stored_token is None or stored_token.expiration.timestamp() <= datetime.now(
+            timezone.utc).timestamp() or stored_token.user_id != user_id:
+        return False
 
     return True
 
@@ -158,8 +158,8 @@ async def get_user(request: Request, response: Response,
         raise HTTPException(status_code=401, detail="Unauthorised")
 
     token_data = await apply_access_token(access_t, {'verify_exp': False})
-    if token_data.exp < datetime.now():
-        return repo.user.get_by_id(db, token_data.sub)
+    if token_data.exp.timestamp() > datetime.now(timezone.utc).timestamp():
+        return await repo.user.get_by_id(db, token_data.sub)
 
     # using refresh token
     refresh_t = request.cookies.get("refresh_token")
@@ -171,4 +171,4 @@ async def get_user(request: Request, response: Response,
     response.set_cookie(key="refresh_token", value=tokens.refresh_token.token,
                         **settings.COOKIE_SETTINGS)
 
-    return repo.user.get_by_id(db, token_data.sub)
+    return await repo.user.get_by_id(db, token_data.sub)

@@ -21,7 +21,7 @@ def check_tg_credentials(
     """
     data_check_string = bytes(str(tg_credentials), 'utf-8')
 
-    if datetime.now().timestamp() - tg_credentials.auth_date >= 3 * 60:
+    if datetime.now().timestamp() - tg_credentials.auth_date >= 1 * 60:
         return schemas.TgAuthorisationResult(result=False, admin=False)
 
     key_user = hashlib.sha256(settings.USER_BOT_TOKEN.encode('utf-8')).digest()
@@ -34,7 +34,8 @@ def check_tg_credentials(
     return schemas.TgAuthorisationResult(result=is_valid, admin=is_admin)
 
 
-async def login_via_tg(db: AsyncSession, tg_data: schemas.TgAuthorizationData):
+async def login_via_tg(db: AsyncSession,
+                       tg_data: schemas.TgAuthorizationData) -> schemas.TokenPair:
     """
     Returns token pair on successful login through telegram
     """
