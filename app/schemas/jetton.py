@@ -11,7 +11,6 @@ class PriceChangePeriods(BaseModel):
 
 
 class Liquidity(BaseModel):
-
     usd: float
     ton_pooled: float
     jetton_pooled: float
@@ -49,5 +48,3 @@ class JettonExtendedInfo(BaseModel):
     code_verified: bool
     lp_burnt: float
     pool_created: datetime
-
-

@@ -88,8 +88,7 @@ class Settings(BaseSettings):
     IMAGE_STORAGE_LOCATION: str = "./images/"
     IMAGE_SERVING_LOCATION: str = 'images'
 
-
-    COOKIE_SETTINGS: Optional[dict] = None
+    COOKIE_SETTINGS: dict
 
     @field_validator("COOKIE_SETTINGS", mode="before")
     @classmethod
@@ -112,7 +111,6 @@ class Settings(BaseSettings):
         return cookie_settings
 
     TONCENTER_API_KEY: str
-
 
     class Config:
         """

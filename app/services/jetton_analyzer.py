@@ -1,10 +1,9 @@
 from dexscreener import DexscreenerClient
-
 from pytoncenter import get_client
 from pytoncenter.v3.models import *
 
-from app.schemas.jetton import JettonExtendedInfo, JettonInfo, PriceChangePeriods, Liquidity
 from app.core.config import settings
+from app.schemas.jetton import JettonExtendedInfo, JettonInfo, PriceChangePeriods, Liquidity
 
 jetton_hashes_verified = [
     "BXGXbGPsG3VQIwomCdvts24bZO+NAioWs06lcGMYWy8=",
@@ -31,7 +30,8 @@ async def get_jetton_info(jetton_addr: str) -> JettonExtendedInfo:
     volume_24h = pair.volume.h24
     lp_addr = pair.pair_address
 
-    jetton_masters = await client_toncenter.get_jetton_masters(GetJettonMastersRequest(address=jetton_addr))
+    jetton_masters = await client_toncenter.get_jetton_masters(
+        GetJettonMastersRequest(address=jetton_addr))
     lp_masters = await client_toncenter.get_jetton_masters(GetJettonMastersRequest(address=lp_addr))
     lp_supply = lp_masters[0].total_supply
     lp_burnt_wallet = await client_toncenter.get_jetton_wallets(
@@ -85,7 +85,6 @@ async def get_jetton_info(jetton_addr: str) -> JettonExtendedInfo:
         pool_created=pair.pair_created_at
     )
     return info
-
 
 # if __name__ == "__main__":
 #     asyncio.run(get_jetton_info("EQBlqsm144Dq6SjbPI4jjZvA1hqTIP3CvHovbIfW_t-SCALE"))
