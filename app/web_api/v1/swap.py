@@ -1,20 +1,26 @@
 from fastapi import APIRouter, Depends
 from pytoniq import LiteBalancer, WalletV4R2
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import models
 from app import schemas
 from app import services
+from app.db.session import get_db
 
 router = APIRouter(prefix='/swap')
 
 
 @router.post("/swap_to_jetton")
 async def swap_to_jetton(swap_info: schemas.SwapCreate,
-                         user: models.User = Depends(services.security.get_user)):
+                         user: models.User = Depends(services.security.get_user),
+                         db: AsyncSession = Depends(get_db)):
     """
     Swap TON with some token on dedust.
     """
-    mnemonics = swap_info.ton_wallet.split(" ")
+    wallet = await services.wallet.get_wallet(swap_info.src_wallet_id, user.id, db)
+    ton_wallet = wallet.mnemonics
+
+    mnemonics = ton_wallet.replace(',', ' ').split()
     client = LiteBalancer.from_mainnet_config(trust_level=1)
     await client.start_up()
     wallet = await WalletV4R2.from_mnemonic(mnemonics=mnemonics, provider=client)
@@ -33,11 +39,15 @@ async def swap_to_jetton(swap_info: schemas.SwapCreate,
 
 @router.post("/swap_to_native")
 async def swap_to_native(swap_info: schemas.SwapCreate,
-                         user: models.User = Depends(services.security.get_user)):
+                         user: models.User = Depends(services.security.get_user),
+                         db: AsyncSession = Depends(get_db)):
     """
     Swap TON with some token on dedust.
     """
-    mnemonics = swap_info.ton_wallet.split(" ")
+    wallet = await services.wallet.get_wallet(swap_info.src_wallet_id, user.id, db)
+    ton_wallet = wallet.mnemonics
+
+    mnemonics = ton_wallet.replace(',', ' ').split()
     client = LiteBalancer.from_mainnet_config(trust_level=1)
     await client.start_up()
     wallet = await WalletV4R2.from_mnemonic(mnemonics=mnemonics, provider=client)

@@ -28,7 +28,7 @@ async def create_wallet(data: schemas.WalletCreate,
     return wallet.id
 
 
-@router.get("/", response_model=List[schemas.Wallet])
+@router.get("/all", response_model=List[schemas.Wallet])
 async def get_all_user_wallets(user: models.User = Depends(services.security.get_user),
                                db: AsyncSession = Depends(get_db)):
     """
