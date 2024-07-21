@@ -25,7 +25,7 @@ async def create_wallet(data: schemas.WalletCreate,
                         user: models.User = Depends(services.security.get_user),
                         db: AsyncSession = Depends(get_db)) -> str:
     wallet = await services.wallet.create_wallet(data, user.id, db)
-    return wallet.id
+    return str(wallet.id)
 
 
 @router.get("/all", response_model=List[schemas.Wallet])
