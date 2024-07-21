@@ -11,7 +11,7 @@ class SwapBase(BaseModel):
     """
     Common Swap properties.
     """
-    ton_wallet: str
+    src_wallet_id: str
     token_address: str
     token_amount: float
     dex: str = "dedust"
