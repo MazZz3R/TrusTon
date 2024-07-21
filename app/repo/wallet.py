@@ -23,7 +23,7 @@ class WalletRepo(CRUDBase[models.Wallet, schemas.WalletCreate, schemas.WalletUpd
         """
         res = await db.scalar(select(self.model)
                               .filter(and_(self.model.id == obj_id,
-                                           self.model.disposed is False))
+                                           self.model.disposed == False))
                               .limit(1))
         return res
 
@@ -33,7 +33,7 @@ class WalletRepo(CRUDBase[models.Wallet, schemas.WalletCreate, schemas.WalletUpd
         """
         res = await db.scalars(select(self.model)
                                .filter(and_(self.model.owner_id == user_id,
-                                            self.model.disposed is False)))
+                                            self.model.disposed == False)))
         return res.all()
 
 
