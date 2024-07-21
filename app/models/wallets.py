@@ -1,6 +1,7 @@
 """
 SQLAlchemy wallet model
 """
+import uuid
 from datetime import datetime
 
 from sqlalchemy import ForeignKey, func
@@ -15,7 +16,7 @@ class Wallet(Base):
     """
     __tablename__ = "wallets"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     owner_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"),
                                           index=True)
 

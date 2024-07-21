@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
+from uuid import UUID
 
 from pydantic import BaseModel, Field
 
@@ -21,7 +22,11 @@ class WalletFunds(BaseModel):
 class WalletCreate(BaseModel):
     name: str = Field(..., max_length=128)
     mnemonics: str = Field(..., max_length=2048)
-    address: str = Field(..., min_length=TODO, max_length=TODO)
+    address: str = Field(..., min_length=48, max_length=48)
+
+
+class WalletCreateInternal(WalletCreate):
+    owner_id: str
 
 
 class WalletUpdate(BaseModel):
@@ -29,11 +34,7 @@ class WalletUpdate(BaseModel):
 
 
 class Wallet(WalletCreate):
-    id: int
-
-    name: str = Field(..., min_length=3, max_length=128)
-    mnemonics: str = Field(..., max_length=2048)
-    address: str = Field(..., min_length=TODO, max_length=TODO)
+    id: UUID
 
     created: datetime
 
