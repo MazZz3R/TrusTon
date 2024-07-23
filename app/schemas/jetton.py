@@ -29,6 +29,8 @@ class JettonInfo(BaseModel):
     amount_style: str
     render_type: str
     price: float
+    pool_address: str
+    address: str
 
 
 class JettonExtendedInfo(BaseModel):

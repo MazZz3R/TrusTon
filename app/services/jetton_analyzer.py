@@ -63,7 +63,9 @@ async def get_jetton_info(jetton_addr: str) -> JettonExtendedInfo:
             symbol=jetton_info.jetton_content.symbol,
             decimals=jetton_info.jetton_content.decimals,
             amount_style=jetton_info.jetton_content.amount_style,
-            render_type=jetton_info.jetton_content.render_type
+            render_type=jetton_info.jetton_content.render_type,
+            pool_address=pair.pair_address,
+            address=jetton_addr
         ),
         market_cap=market_cap,
         liquidity=Liquidity(
