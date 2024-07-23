@@ -12,7 +12,7 @@ async def get_wallet_funds(address: str) -> WalletFunds:
     account = await client.get_account(GetAccountRequest(address=address))
 
     jetton_wallets = await client.get_jetton_wallets(
-        GetJettonWalletsRequest(owner_address=address, limit=100))
+        GetJettonWalletsRequest(owner_address=address, limit=10))
 
     ton_balance = account.balance / 1e9
     jettons = []
