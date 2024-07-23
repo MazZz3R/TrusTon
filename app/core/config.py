@@ -38,7 +38,8 @@ class Settings(BaseSettings):
                                        "http://127.0.0.1:8080", "http://127.0.0.1:8000",
                                        "https://localhost", "https://localhost:8080",
                                        "https://localhost:8000", "https://127.0.0.1",
-                                       "https://127.0.0.1:8080", "https://127.0.0.1:8000"]
+                                       "https://127.0.0.1:8080", "https://127.0.0.1:8000",
+                                       "https://temp.ortieom.ru", "https://truston.mzr.su"]
 
     # production CORS TODO: update when FQDN is determined
     # BACKEND_CORS_ORIGINS: List[str] = ["https://FQDN"]
@@ -101,13 +102,10 @@ class Settings(BaseSettings):
         if isinstance(val, dict):
             return val
 
-        if values.get('DEBUG'):
-            cookie_settings = {"samesite": 'none'}
-        else:
-            cookie_settings = {"httponly": True,
-                               "samesite": 'strict',
-                               "secure": True,
-                               "domain": values.get('DOMAIN')}
+        cookie_settings = {"httponly": True,
+                           "samesite": 'strict',
+                           "secure": True,
+                           "domain": values.get('DOMAIN')}
         return cookie_settings
 
     TONCENTER_API_KEY: str
