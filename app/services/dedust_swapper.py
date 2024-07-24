@@ -88,5 +88,5 @@ class DedustSwapper(Swapper):
         )
 
         await wallet.transfer(destination=jetton_wallet.address,
-                              amount=GAS_VALUE,
+                              amount=int(0.3*1e9),
                               body=swap)
